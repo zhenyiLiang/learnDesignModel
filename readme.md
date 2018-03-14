@@ -1,6 +1,6 @@
 # 设计模式
 
-## 19. 组合模式
+##  组合模式
 
 ### 1. 定义
 
@@ -37,3 +37,73 @@
 ### 4. 优点
 
 - 分离了集合对象的遍历行为，抽象出一个迭代器类来负责，这样既可以不暴露集合的内部结构，又让外部代码透明地访问集合内部数据。
+
+## 单例模式
+
+### 1. 定义
+
+> 保证一个类仅有一个实例，并提供一个访问它的全局访问点
+>
+> 通常我们可以声明一个全局变量使得一个对象被访问，但不能阻止你实例化多个对象，最好的方法是，让类本身负责保存它的唯一实例，这个类可以保证没有其他实例可以被创建，而且他可以提供一个访问该实例的方法。
+
+### 2. 结构图
+
+![单例模式](./单例模式.png)
+
+### 3. 优点
+
+- 保证类只有唯一的实例
+- 因为只有一个实例，所以可以控制用户怎样访问以及何时访问它
+
+### 4. 多线程时的单例
+
+- 使用锁来处理
+
+  ```java
+  class Singleton{
+    public  static Singleton singleton;
+    private static final Object object=new Object();
+    private Singleton(){}
+    public static Singleton getInstance(){
+        if(singleton==null){
+            synchronized(object){
+                if(singleton==null){
+                    singleton=new Singleton();
+                }
+            }
+        }
+      return singleton;
+    } 
+  }
+  ```
+
+### 5. 懒汉式加载和饿汉式加载
+
+- 懒汉式单例：在第一次被引用时才会实例化，会有多线程访问的安全问题
+
+  ```java
+  class Singleton{
+    public static Singleton singleton;
+    private Singleton(){}
+    public static Singleton getInstance(){
+        if(singleton==null){
+            singleton=new Singleton();
+        }
+      return singleton;
+    }
+  }
+  ```
+
+- 饿汉式单例：在类被加载时就将自己实例化,会提前占用系统资源
+
+  ```java
+  class Singleton{
+    public static final Singleton singleton=new Singleton();
+    private Singleton(){}
+    public static Singleton getInstance(){
+        return singleton;
+    }
+  }
+  ```
+
+  ​
